@@ -87,6 +87,10 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
+    def work_version = "1.0.0-alpha08"
+    implementation "android.arch.work:work-runtime:$work_version"
+    implementation "android.arch.work:work-firebase:$work_version"
+
 }
 
 configurations {

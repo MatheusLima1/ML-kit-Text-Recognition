@@ -22,7 +22,6 @@ import com.example.textrecognition.TextInfoApplication
 import com.example.textrecognition.TextInfoApplication.Companion.dataStore
 import com.example.textrecognition.db.entity.TextInfo
 import com.example.textrecognition.preference.GraphicOverlay
-import com.example.textrecognition.preference.PreferenceUtils
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
@@ -37,8 +36,6 @@ class TextRecognitionProcessor(
     textRecognizerOptions: TextRecognizerOptionsInterface
 ) : VisionProcessorBase<Text>(context) {
     private val textRecognizer: TextRecognizer = TextRecognition.getClient(textRecognizerOptions)
-    private val shouldGroupRecognizedTextInBlocks: Boolean =
-        PreferenceUtils.shouldGroupRecognizedTextInBlocks(context)
 
     override fun stop() {
         super.stop()
@@ -61,25 +58,20 @@ class TextRecognitionProcessor(
             preferences[TextInfoApplication.UUID_USER] ?: ""
         }.toString()
 
-        var alreadyExists = false
-
         val textInfo = TextInfo(
             text = text.text,
             deviceUuid = uuIdUser,
             isSync = false
         )
 
-        TextInfoApplication.database?.textInfoDao()?.let { infoDao ->
-            infoDao.getAllText().forEach {
-                if(text.text == it.text){
-                    alreadyExists = true
-                    return
-                }
-            }
-        }
-        if(!alreadyExists)
+        if (dateDoestExists(text)) {
             TextInfoApplication.database?.textInfoDao()?.insertTextInfo(textInfo)
+        }
     }
+
+    private fun dateDoestExists(text: Text) =
+        TextInfoApplication.database?.textInfoDao()
+            ?.getTextInfoWithDescription(text.text).isNullOrEmpty()
 
     override fun onFailure(e: Exception) {
         Log.w(TAG, "Text detection failed.$e")
