@@ -1,6 +1,9 @@
 package com.example.textrecognition.view
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -15,15 +18,20 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.work.*
 import com.bumptech.glide.Glide
 import com.example.textrecognition.R
+import com.example.textrecognition.TextInfoApplication
 import com.example.textrecognition.preference.BitmapUtils
 import com.example.textrecognition.preference.GraphicOverlay
 import com.example.textrecognition.preference.VisionImageProcessor
 import com.example.textrecognition.textDetector.TextRecognitionProcessor
-import com.example.textrecognition.view.list_recipe.ListRecipeActivity
+import com.example.textrecognition.view.list_receipt.ListReceiptActivity
+import com.example.textrecognition.worker.AlarmReceiver
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.IOException
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     private val SIZE_1024_768 = "w:1024"
     private val SIZE_640_480 = "w:640"
     private var isLandScape = false
+    val UUID_USER = "uuid_user"
+    lateinit var uuidValue: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +84,42 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+
+        if (getUserUUID().isEmpty())
+            storeUserUUID()
+        createWorkManager()
+    }
+
+    private fun storeUserUUID() {
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString(UUID_USER, UUID.randomUUID().toString())
+            commit()
+        }
+        uuidValue = sharedPref.getString(UUID_USER, "").orEmpty()
+    }
+
+    private fun getUserUUID(): String {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        uuidValue = sharedPref.getString(UUID_USER, "").orEmpty()
+        return uuidValue
+    }
+
+    private fun createWorkManager() {
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(this, AlarmReceiver::class.java)
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                this,
+                0,
+                intent,
+                0
+            )
+
+        val timeInterval = 60 * 1_000L
+        val alarmTime = System.currentTimeMillis() + 5_000L
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, timeInterval , pendingIntent)
     }
 
     private val targetedWidthHeight: Pair<Int, Int>
@@ -111,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     private fun createImageProcessor() {
         try {
             imageProcessor =
-                TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build())
+                TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build(), uuidValue)
         } catch (e: Exception) {
             Log.e(
                 TAG,
@@ -151,9 +197,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.list_item -> {
-                startActivity(Intent(this, ListRecipeActivity::class.java))
+                startActivity(Intent(this, ListReceiptActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

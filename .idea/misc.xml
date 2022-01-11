@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/drawable/ic_chart.xml" value="0.3828125" />
+        <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/layout/activity_details_receipt.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/layout/activity_list_recipe.xml" value="0.176" />
         <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/layout/list_recipe_item.xml" value="0.4" />
         <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/menu/text_info_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Mathe/AndroidStudioProjects/TextRecognition/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.12552083333333333" />
       </map>
     </option>
   </component>

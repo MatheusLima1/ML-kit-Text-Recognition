@@ -1,4 +1,4 @@
-package com.example.textrecognition.view.list_recipe
+package com.example.textrecognition.view.list_receipt
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.textrecognition.R
 import com.example.textrecognition.db.entity.TextInfo
 
-class ListRecipeAdapter(private val textInfos: List<TextInfo>) :
-    RecyclerView.Adapter<ListRecipeAdapter.ViewHolder>() {
+class ListReceiptAdapter(
+    private val textInfos: List<TextInfo>,
+    private val onItemClickListener: (textInfo: TextInfo, position: Int) -> Unit
+) :
+    RecyclerView.Adapter<ListReceiptAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
@@ -25,15 +28,16 @@ class ListRecipeAdapter(private val textInfos: List<TextInfo>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ListRecipeAdapter.ViewHolder {
+    ): ListReceiptAdapter.ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.list_recipe_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ListRecipeAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListReceiptAdapter.ViewHolder, position: Int) {
         holder.textView.text = textInfos[position].text
         holder.isSync.setImageResource(getIsSync(textInfos[position]))
+        holder.itemView.setOnClickListener { onItemClickListener(textInfos[position], position) }
     }
 
     private fun getIsSync(textInfo: TextInfo): Int {

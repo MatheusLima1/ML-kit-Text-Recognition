@@ -18,8 +18,8 @@ package com.example.textrecognition.textDetector
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.example.textrecognition.TextInfoApplication
-import com.example.textrecognition.TextInfoApplication.Companion.dataStore
 import com.example.textrecognition.db.entity.TextInfo
 import com.example.textrecognition.preference.GraphicOverlay
 import com.google.android.gms.tasks.Task
@@ -28,12 +28,12 @@ import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
-import kotlinx.coroutines.flow.map
 
 /** Processor for the text detector demo.  */
 class TextRecognitionProcessor(
     private val context: Context,
-    textRecognizerOptions: TextRecognizerOptionsInterface
+    textRecognizerOptions: TextRecognizerOptionsInterface,
+    private val uuidUser: String
 ) : VisionProcessorBase<Text>(context) {
     private val textRecognizer: TextRecognizer = TextRecognition.getClient(textRecognizerOptions)
 
@@ -54,18 +54,15 @@ class TextRecognitionProcessor(
     }
 
     private fun storageData(text: Text) {
-        val uuIdUser = context.dataStore.data.map { preferences ->
-            preferences[TextInfoApplication.UUID_USER] ?: ""
-        }.toString()
-
         val textInfo = TextInfo(
             text = text.text,
-            deviceUuid = uuIdUser,
+            deviceUuid = uuidUser,
             isSync = false
         )
 
         if (dateDoestExists(text)) {
             TextInfoApplication.database?.textInfoDao()?.insertTextInfo(textInfo)
+            Toast.makeText(context, "Comrpovante adicionado no banco", Toast.LENGTH_LONG).show()
         }
     }
 

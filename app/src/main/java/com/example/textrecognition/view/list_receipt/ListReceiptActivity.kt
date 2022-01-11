@@ -1,4 +1,4 @@
-package com.example.textrecognition.view.list_recipe
+package com.example.textrecognition.view.list_receipt
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.textrecognition.R
 import com.example.textrecognition.TextInfoApplication
-import com.example.textrecognition.TextInfoApplication.Companion.dataStore
-import kotlinx.android.synthetic.main.activity_main.*
 
-class ListRecipeActivity : AppCompatActivity() {
+class ListReceiptActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +22,8 @@ class ListRecipeActivity : AppCompatActivity() {
     private fun fillRecipeList() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = TextInfoApplication.database?.textInfoDao()?.getAllText()
-            ?.let { ListRecipeAdapter(it) }
+            ?.let { ListReceiptAdapter(it){textInfo, position ->
+                //Todo activity com detalhes do comprovante, caso o mesmo esteja syncado
+            } }
     }
 }
