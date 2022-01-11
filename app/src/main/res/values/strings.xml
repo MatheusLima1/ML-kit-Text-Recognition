@@ -142,5 +142,8 @@
     <string name="pref_title_segmentation_raw_size_mask" translatable="false">Enable raw size mask</string>
     <string name="pref_key_segmentation_raw_size_mask" translatable="false">srsm</string>
     <string name="example">dsakhgdask lasjdasldkas lsadjasldjasdlk asldajdk sadja slkdja asdjaldk dsahdask dlaksdhjsakl sadlhaskdhsa hdsalkda</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut laoreet dolor. Pellentesque placerat nisi eros, eget suscipit elit mollis id. Morbi rhoncus, felis in convallis tincidunt, nulla sapien dapibus risus, id faucibus quam elit quis libero. Fusce vel purus sapien. Vivamus dapibus accumsan feugiat. In at tortor in est mattis blandit. Quisque vestibulum velit vel eleifend suscipit. Fusce dapibus faucibus lacus, maximus venenatis arcu posuere imperdiet. Sed mi tortor, gravida et euismod et, accumsan sodales ipsum.</string>
+    <string name="total">Total</string>
+    <string name="nome_da_empresa">Nome da empresa</string>
 
 </resources>

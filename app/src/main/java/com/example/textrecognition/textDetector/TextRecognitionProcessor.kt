@@ -63,6 +63,8 @@ class TextRecognitionProcessor(
         if (dateDoestExists(text)) {
             TextInfoApplication.database?.textInfoDao()?.insertTextInfo(textInfo)
             Toast.makeText(context, "Comrpovante adicionado no banco", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Comprovante já adicionado anteriormente", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -72,6 +74,7 @@ class TextRecognitionProcessor(
 
     override fun onFailure(e: Exception) {
         Log.w(TAG, "Text detection failed.$e")
+        Toast.makeText(context, "Algo deu errado, tente novamente", Toast.LENGTH_LONG).show()
     }
 
     companion object {

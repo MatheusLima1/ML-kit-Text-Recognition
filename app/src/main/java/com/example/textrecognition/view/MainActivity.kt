@@ -18,21 +18,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.work.*
 import com.bumptech.glide.Glide
 import com.example.textrecognition.R
-import com.example.textrecognition.TextInfoApplication
 import com.example.textrecognition.preference.BitmapUtils
 import com.example.textrecognition.preference.GraphicOverlay
 import com.example.textrecognition.preference.VisionImageProcessor
 import com.example.textrecognition.textDetector.TextRecognitionProcessor
+import com.example.textrecognition.view.details_receipt.DetailsReceiptAcivity
 import com.example.textrecognition.view.list_receipt.ListReceiptActivity
+import com.example.textrecognition.view.list_sync_receipt.ListSyncReceiptActivity
 import com.example.textrecognition.worker.AlarmReceiver
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.IOException
 import java.util.*
-import java.util.concurrent.TimeUnit
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -117,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 0
             )
 
-        val timeInterval = 60 * 1_000L
+        val timeInterval = 60 * 1_0000L
         val alarmTime = System.currentTimeMillis() + 5_000L
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime, timeInterval , pendingIntent)
     }
@@ -200,6 +198,12 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.list_item -> {
                 startActivity(Intent(this, ListReceiptActivity::class.java))
+                true
+            }
+            R.id.list_item_sync -> {
+                val i = Intent(this, ListSyncReceiptActivity::class.java)
+                i.putExtra("uuid_user", uuidValue)
+                startActivity(i)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -10,8 +10,7 @@ import com.example.textrecognition.R
 import com.example.textrecognition.db.entity.TextInfo
 
 class ListReceiptAdapter(
-    private val textInfos: List<TextInfo>,
-    private val onItemClickListener: (textInfo: TextInfo, position: Int) -> Unit
+    private val textInfos: List<TextInfo>
 ) :
     RecyclerView.Adapter<ListReceiptAdapter.ViewHolder>() {
 
@@ -37,7 +36,6 @@ class ListReceiptAdapter(
     override fun onBindViewHolder(holder: ListReceiptAdapter.ViewHolder, position: Int) {
         holder.textView.text = textInfos[position].text
         holder.isSync.setImageResource(getIsSync(textInfos[position]))
-        holder.itemView.setOnClickListener { onItemClickListener(textInfos[position], position) }
     }
 
     private fun getIsSync(textInfo: TextInfo): Int {
