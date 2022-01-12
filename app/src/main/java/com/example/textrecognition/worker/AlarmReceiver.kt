@@ -27,39 +27,31 @@ class AlarmReceiver() : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        if (isOnline(context)) {
-            createNotificationChannel(context)
-            notifyNotification(context)
+        createNotificationChannel(context)
+        notifyNotification(context)
 
-            val textInfoDao = TextInfoApplication.database?.textInfoDao()
+        val textInfoDao = TextInfoApplication.database?.textInfoDao()
 
-            textInfoDao?.getTextNotSynced()?.forEach { textInfo ->
-                TextInfoWebClient().process(
-                    Receipt(textInfo.text, textInfo.deviceUuid),
-                    preExecute = { Log.i("Receiver pre-execute", "executou") },
-                    finished = { Log.i("Receiver finish", "finalizou") },
-                    sucess = {
-                        textInfo.isSync = true
-                        textInfoDao.updateTextInfo(textInfo)
-                        Log.i("Receiver SUCESS", "finalizou")
-                    },
-                    failure = {
-                        Log.i("Receiver failure", "falhou", it)
-                        Toast.makeText(
-                            context,
-                            "Falha ao enviar os dados para o servidor",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                )
-            }
+        textInfoDao?.getTextNotSynced()?.forEach { textInfo ->
+            TextInfoWebClient().process(
+                Receipt(textInfo.text, textInfo.deviceUuid),
+                preExecute = { Log.i("Receiver pre-execute", "executou") },
+                finished = { Log.i("Receiver finish", "finalizou") },
+                sucess = {
+                    textInfo.isSync = true
+                    textInfoDao.updateTextInfo(textInfo)
+                    Log.i("Receiver SUCESS", "finalizou")
+                },
+                failure = {
+                    Log.i("Receiver failure", "falhou", it)
+                    Toast.makeText(
+                        context,
+                        "Falha ao enviar os dados para o servidor",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            )
         }
-    }
-
-    private fun isOnline(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = cm.activeNetworkInfo
-        return netInfo != null && netInfo.isConnected
     }
 
     private fun createNotificationChannel(context: Context) {
