@@ -17,12 +17,12 @@ Foram utilizadas as seguintes tecnologias:
 > Azure;
 
 ## Desenho da Arquitetura do Projeto
-O aplicativo funciona da seguinte maneira: 
-1 - Você escolhe o arquivo a ser lido 
-2 - A imagem é convertida pra escala cinza
-3 - A imagem é processada usando o Glide
-4 - Os metadados são armazenados em um banco interno (SQlite) 
-5 - Os metadados são sincronizados para o servidor (caso tenha internet).
+O aplicativo funciona da seguinte maneira:<br/> 
+1 - Você escolhe o arquivo a ser lido<br/>
+2 - A imagem é convertida pra escala cinza usando o Glide<br/>
+3 - A imagem é processada usando o ML KIT Vision API de Text Recognition.<br/>
+4 - Os metadados são armazenados em um banco interno (SQlite)<br/> 
+5 - Os metadados são sincronizados para o servidor (caso tenha internet).<br/>
 Obs: Caso tente realizar o processamento de uma imagem que foi enviada anteriormente, o aplicativo mostra uma mensagem ao usuário dizendo que não é possível, evitando duplicidade dos dados.
 <p align="center">
   <img src="pics/arch.png" alt="GridLayout" />
