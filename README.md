@@ -52,6 +52,7 @@ Tela de detalhes do comprovante
 
 ## Execução do projeto
 Para executar o projeto basta baixar o app no link: https://drive.google.com/file/d/1RXubZ4tyE6V8BoTEbjOecMzHdLz68PAw/view?usp=sharing e executar no seu smartphone android.
+E para executar o projeto, baixe esse repo e no seu android studio, execute. Talvez seja necessário atualizar algumas coisas no android studio. A Versão q eu estava utilizando era a Canary (Artic Fox)
 
 ## Link do projeto back-end
 https://github.com/pablopupulin/CorporateRefund
